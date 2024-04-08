@@ -1,46 +1,90 @@
 <!DOCTYPE html>
 <html>
 
-  <head> <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+  <head>
     <meta charset='utf-8' />
     <title>University of Oregon Mapping</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
     <!--    Include the reference to the Mapbox JavaScript here in the <head> of the page    -->
     
-
+      <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
 
           
     <!--    Include the reference to the Mapbox CSS here in the <head> of the page    -->
-    
+      <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+
 
     <style>
         /* Insert the CSS code here between the <style> tags */
-        
+      body { margin:0; padding:0; }
+     #map { position:absolute; top:0; bottom:0; width: 100%; height: 100%; }
 
-
+     #title { z-index: 9999; 
+      background-color: green; 
+      opacity: 80%; 
+      text-align: center;
+    color: whitesmoke;}
+      
     </style>
   </head>
 
   <body>
     <!--  Insert the map div here in the <body> of the page  -->
-   
-    <!--  Insert the tile div here (part V) -->
+      <div id='map'></div>
 
-    <script>
-        // Insert the JavaScript within the <script> tags, within the body   
-        // Start with the Mapbox access token here
- 
-   
-        // Then initialize the map here
-   
+  
+    <!--  Insert the tile div here (part V) -->
+  <div id='title'>
+      <h1>The Look of Portland</h1>
+      <h2>By: Anny Huang</h2>   
+</div>
     
 
+    <script>
+        // Insert the JavaScript within the <script> tags, within the body 
+           
+        // Start with the Mapbox access token here
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZ2lzYW5uaSIsImEiOiJjbHVsaGtueXcwdHVsMnBtaWI4cm82ZjlmIn0.zQWCRPSYN7Jahq2NzQtHeg'; //  Put your access token between the single quotes.
+
+   
+        // Then initialize the map here    
+     var map = new mapboxgl.Map({
+  container: 'map', // id of a div on your page, where the map will be inserted
+  style: 'mapbox://styles/mapbox/navigation-day-v1', // stylesheet location
+  center: [-122.6788, 45.5212], // starting position [lng, lat] eg. [-122.6788, 45.5212]
+  zoom: 11 // starting zoom 
+});
+
+
         // Add popup markers here  (part IV)
-        
+var popup = new mapboxgl.Popup({ offset: 25 })
+     .setHTML('Hello World. Welcome to Portland!');     
+
+
         // Add any other variables such as markers here (part III)
+  var marker = new mapboxgl.Marker({color: 'purple'})
+   .setLngLat([-122.6788, 45.5212]) // starting position [lng, lat]
+   .addTo(map);
+
+  var marker2 = new mapboxgl.Marker({color:'pink'})
+  .setLngLat([-122.69, 45.55]) // starting position [lng, lat] 
+  .setPopup(popup) //add the popup with the variable name 'popup' to the marker 
+  .addTo(map);   
+
+  var marker = new mapboxgl.Marker({color: 'blue'})
+.setLngLat([-122.685, 45.5212])
+.setPopup(popup) //add the popup with the variable name 'popup' to the marker 
+.addTo(map); // add the open marker to the map       
+ 
 
         // Add optional advanced "On load" function here
-        
+        var popup_layer_voodoo = new mapboxgl.Popup({
+closeOnClick: true, anchor: 'top-left'})
+.setLngLat([-122.673308, 45.522675])
+.setHTML('<a href="https://www.stubhub.com/portland-trail-blazers-tickets/">Portland Trailer Blazers Tickets</a>')
+.addTo(map);     
+
     </script>
 
   </body>
