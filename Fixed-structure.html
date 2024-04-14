@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <title>Fixed Map</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <!--    1.1.  Include the reference to the Mapbox JavaScript here in the <head> of the page  -->
+      <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js'></script>
+
+    <!--    1.2 Include the reference to the Mapbox CSS here in the <head> of the page  -->
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' rel='stylesheet' />
+
+    <style>
+        /* 1.4 Insert the CSS code here between the <style> tags */
+         body { margin:50px; padding:0; }
+        #map1 { position:relative; height:300px; width:50%; height:70%}
+
+        /* 2.5.2 Insert additional CSS code here between the <style> tags */
+         
+
+    </style>
+  </head>
+
+  <body>
+        <!-- 1.3 Insert the div for the structure of the page here in the <body> of the page -->
+          <h1> Map 1: </h1>
+          <div id='map1'></div>
+    <hr>
+
+        <script>
+            /* Insert the JavaScript within the <script> tags, within the body */
+            // 2.1 Start with the Mapbox access token
+            mapboxgl.accessToken ='pk.eyJ1IjoiZ2lzYW5uaSIsImEiOiJjbHVsaGtueXcwdHVsMnBtaWI4cm82ZjlmIn0.zQWCRPSYN7Jahq2NzQtHeg'; //  Put your access token between the single quotes.
+
+            // 2.2 Then initialize the first map
+            var map = new mapboxgl.Map({
+              container: 'map1', // id of a div on your page, where the map will be inserted
+              style: `mapbox://styles/mapbox/standard`, // the style URL 'mapbox://styles/mapbox/streets-v11' 
+              center: [set-the-lng, set-the-lat], // starting position [-122.6788, 45.5212] eg. [-122.6788, 45.5212]
+              zoom: 11 // starting zoom 
+            });
+
+            // 2.3 Add any other variables (such as popups and markers) to the first map
+
+
+            // 2.4 Add arguments to disable the map interactivity here
+            // Disable drag and zoom handlers.
+
+
+            // 2.5.3 Then initialize the 2nd map
+
+
+            // 2.5.4 Add any other variables (such as markers) to the second map
+
+
+            // 2.5.5 Add arguments to disable the second map's interactivity here
+            
+            // 2.6 Change the map pointers
+
+        </script>
+  </body>
+</html>
