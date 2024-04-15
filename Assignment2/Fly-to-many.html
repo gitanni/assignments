@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Fly to a location</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
+    
+    <style>
+        /* CSS for a full page map   */
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+        
+        /* The CSS for the "Fly" button  */
+        #fly {
+            display: block; /* displays over the map */
+            position: relative; /* displays over the map */
+            margin: 0px auto; 
+            width: 50%;
+            height: 40px;
+            padding: 10px;
+            border: none;
+            border-radius: 3px; /* rounded corners */
+            font-size: 12px;
+            text-align: center;
+            font-weight: bold;
+            color: oldlace;
+            background: DarkRed;
+        }
+    </style>
+</head>
+<body>
+
+    <div id='map'></div>
+    <br/>
+    <button id='fly'>Fly - Many</button>
+    
+    
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoiam9tZXJzb24iLCJhIjoiY2o1bXE2bHlyMnJhZDMzbnpyMnhlODdpcSJ9.QJMJ_cTFCY050aZfSn1umQ';
+        
+        /* Variables for the marker and fly-to locations*/
+        var clickCounter = 1; // keep track of the number of times the user has clicked
+        var flyLocations = [[151.21529669782535,-33.85660618894459],[2.2944,48.8589], [-97.70,30.30]]; // Where the map will fly to
+        
+        
+        
+        // initialize the map
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: flyLocations[0],
+            zoom: 17
+        });
+        
+
+           
+        
+        // Add popups and markers to the map
+        var popup = new mapboxgl.Popup()
+            .setText('This is my first point.');
+
+        var marker = new mapboxgl.Marker({color:'DarkRed'})
+            .setLngLat(flyLocations[0]) // put the marker at the first starting position in the flyLocations array [lng, lat]
+            .setPopup(popup) //add the popup to the marker 
+            .addTo(map);
+        
+        var popup2 = new mapboxgl.Popup()
+            .setText('This is my second point.');
+
+        var marker2 = new mapboxgl.Marker({color:'DarkRed'})
+            .setLngLat(flyLocations[1]) // put the marker at the second starting position in the flyLocations array [lng, lat]
+            .setPopup(popup2) //add the popup to the marker 
+            .addTo(map);
+        
+        var popup3 = new mapboxgl.Popup()
+            .setText('This is my third point.');
+
+        var marker3 = new mapboxgl.Marker({color:'DarkRed'})
+            .setLngLat(flyLocations[2]) // put the marker at the third starting position in the flyLocations array [lng, lat]
+            .setPopup(popup3) //add the popup to the marker 
+            .addTo(map);
+        
+        
+        // add a 'Listener' to the div with the ID 'fly', that's the button.
+        document.getElementById('fly').addEventListener('click', function () {
+            console.log("flying to " + flyLocations[clickCounter])
+            map.flyTo({
+                center: flyLocations[clickCounter] // look up the value of the click counter in the flyLocations array.
+            });
+
+            // update the click counter to the next location
+            clickCounter = clickCounter +1;
+            if (clickCounter > flyLocations.length-1) clickCounter = 0; // if the user has clicked more times than the length of the flyLocations array, reset it to 0.
+
+        });
+        
+        
+        </script>
+
+</body>
+</html>

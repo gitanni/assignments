@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <title>Fixed Map</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+    <!--    1.1.  Include the reference to the Mapbox JavaScript here in the <head> of the page  -->
+      <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js'></script>
+
+    <!--    1.2 Include the reference to the Mapbox CSS here in the <head> of the page  -->
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' rel='stylesheet' />
+
+    <style>
+        /* 1.4 Insert the CSS code here between the <style> tags */
+      
+          body { margin:50px; padding:0; }
+        #map1 { position:relative; height:300px; width:50%;}
+
+        /* 2.5.2 Insert additional CSS code here between the <style> tags */
+          #map2 { position:relative; height:300px; width:50%;}
+          #map3 { position:relative; height:300px; width:50%;}
+
+        /*CSS code styles for paragraphs*/
+          p {font-size: 20px}
+          p2 {font-size: 20px}
+          p3 {font-size: 20px}
+
+        #title{text-align: center; 
+              background-color: pink;}
+          
+
+         
+    
+    </style>
+  </head>
+
+  <body>
+        <!-- 1.3 Insert the div for the structure of the page here in the <body> of the page -->
+      <div id='title'>
+        <h1>Exploring Bend, Oregon</h1>
+       </div>
+      
+      <h1> Map 1: </h1> 
+        <p>This is the location of where Bend is in Oregon. It is apart of Central Oregon, where the weather is often sunny and dry. 
+         Bend has a population of approximately 103k. There are many activities to do within Bend.</p>
+      <div id='map1'></div>  
+      <hr>
+    
+
+      <h1> Map 2:</h1>
+         <p2>One of the actitivties in Bend is the Old Mill District. This district is a shopper center that was once a mill back in 1916. 
+        Today, there are various shops, restaurants, and movie theather that lie within this mill.</p2>  
+      <div id='map2'></div>
+      <hr>
+
+      <h1> Map 3:</h1>
+      <p3>Another activity is floating down the Riverbend Park. You can bring your own floaties to float down the gorgeous Deschutes River or rent a floatie for
+          day from a rental shop in the Old Mill District. If you are not wanting to float, you can visit the Riverbend Park and walk on the path or do a BBQ day!</p3>
+          <div id='map3'></div>
+     <p></p>
+     <p></p>
+THANKS BOBYE
+ 
+
+
+        <script>
+            /* Insert the JavaScript within the <script> tags, within the body */
+            // 2.1 Start with the Mapbox access token
+            mapboxgl.accessToken ='pk.eyJ1IjoiZ2lzYW5uaSIsImEiOiJjbHVsaGtueXcwdHVsMnBtaWI4cm82ZjlmIn0.zQWCRPSYN7Jahq2NzQtHeg'; // Put your access token between the single quotes.
+
+            // 2.2 Then initialize the first map
+            var map = new mapboxgl.Map({
+container: 'map1', // id of a div on your page, where the map will be inserted
+style: 'mapbox://styles/mapbox/streets-v11', // the style URL 'mapbox://styles/mapbox/streets-v11' 
+center: [-120.50311868, 43.958620], // starting position [lng, lat] eg. [-122.6788, 45.5212]
+zoom: 5 // starting zoom 
+});
+
+    // Disable drag and zoom handlers.
+    map.dragPan.disable();
+               map.scrollZoom.disable();
+               map.boxZoom.disable();
+               map.dragRotate.disable();
+               map.keyboard.disable();
+               map.doubleClickZoom.disable();
+               map.touchZoomRotate.disable();
+               map.touchZoomRotate.disableRotation();
+
+            // 2.3 Add any other variables (such as popups and markers) to the first map
+            var popup = new mapboxgl.Popup()
+.setText('This is Bend.');
+
+var marker = new mapboxgl.Marker({color:'purple'})
+.setLngLat([-121.31155810357004, 44.06332719860135]) // starting position [lng, lat]
+.setPopup(popup) //add the popup named "popup" to this marker 
+.addTo(map); // add it to the map with the ID "map"
+
+            // 2.4 Add arguments to disable the map interactivity here
+            // Disable drag and zoom handlers.
+
+
+            // 2.5.3 Then initialize the 2nd map
+     // Then initialize the 2nd map
+      var map2 = new mapboxgl.Map({
+         container: 'map2', // id of a div on your page, where the map will be inserted
+         style: 'mapbox://styles/mapbox/streets-v11', // stylesheet location
+         center: [-121.313529786335, 44.045249389328006], // starting position [lng, lat] eg. [-122.6788, 45.5212]
+         zoom: 15 // starting zoom 
+         });
+
+            // 2.5.4 Add any other variables (such as markers) to the second map
+            var popup2 = new mapboxgl.Popup()
+          .setText('Old Mill District.');
+
+var marker2 = new mapboxgl.Marker({color:'yellow'})
+  .setLngLat([-121.313529786335, 44.045249389328006],) // starting position [lng, lat] 
+  .setPopup(popup2) //add the popup to the marker 
+  .addTo(map2); // id it to the map with the ID *map2*
+
+            // 2.5.5 Add arguments to disable the second map's interactivity here
+            
+             // Disable drag and zoom handlers. 
+         map2.dragPan.disable();
+map2.scrollZoom.disable();
+map2.boxZoom.disable();
+map2.dragRotate.disable();
+map2.keyboard.disable();
+map2.doubleClickZoom.disable();
+map2.touchZoomRotate.disable();
+map2.touchZoomRotate.disableRotation();
+
+            // 2.6 Change the map pointers
+// Change the map pointers
+map.getCanvas().style.cursor = 'auto';
+map2.getCanvas().style.cursor = 'auto';
+
+    //initlize the third  map 
+var map3 = new mapboxgl.Map({
+container: 'map3', // id of a div on your page, where the map will be inserted
+style: 'mapbox://styles/mapbox/streets-v11', // the style URL 'mapbox://styles/mapbox/streets-v11' 
+center: [-121.32158342419845, 44.0428356671546], // starting position [lng, lat] eg. [-122.6788, 45.5212]
+zoom: 15 // starting zoom 
+});
+
+    // Disable drag and zoom handlers for the third map.
+    map3.dragPan.disable();
+               map3.scrollZoom.disable();
+               map3.boxZoom.disable();
+               map3.dragRotate.disable();
+               map3.keyboard.disable();
+               map3.doubleClickZoom.disable();
+               map3.touchZoomRotate.disable();
+               map3.touchZoomRotate.disableRotation();
+
+// add variables here for third map 
+var popup3 = new mapboxgl.Popup()
+          .setText('Riverbend Park.');
+
+var marker3 = new mapboxgl.Marker({color:'pink'})
+  .setLngLat([-121.32158342419845, 44.0428356671546]) 
+  .setPopup(popup3)
+  .addTo(map3); 
+
+  //Change the map pointers for third map
+map3.getCanvas().style.cursor = 'auto';
+
+        </script>
+  </body>
+</html>
