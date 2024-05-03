@@ -1,0 +1,181 @@
+/*Some elements need explicit heights on large screens which are used to calculate the size of full-height components. */
+.site-header {
+  height: 4rem;
+  position: relative;
+  z-index: 2;
+  background-color: #fff;
+  box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.1);
+  padding: 0 1rem;
+}
+
+.site-title {
+  font-size: 1.25rem;
+  line-height: 4rem;
+}
+
+/*.site-main contains everything except the header. On large screens, it fills the remaining height of the window.*/
+.site-main {
+  position: relative;
+  z-index: 1;
+  /*large screens*/
+}
+@media screen and (min-width: 64em) {
+  .site-main {
+    height: calc(100vh - 4rem);
+  }
+}
+
+.search-container {
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0.25rem 0.25rem;
+  /* On medium screens, search is removed from the grid layout and positioned absolute at the top of the sidebar.*/
+  /*On large screens, search and sidebar move to the left. */
+}
+@media print, screen and (min-width: 40em) {
+  .search-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15rem;
+    height: 3.25rem;
+    overflow: visible;
+    background-color: WhiteSmoke;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1), -4px 0 0 rgba(0, 0, 0, 0.1);
+  }
+}
+@media screen and (min-width: 64em) {
+  .search-container {
+    right: auto;
+    left: 0;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1), 4px 0 0 rgba(0, 0, 0, 0.1);
+  }
+}
+
+.search {
+  margin: 0;
+}
+
+.search-results {
+  display: none;
+  margin: 0;
+  /*medium screens*/
+}
+@media print, screen and (min-width: 40em) {
+  .search-results {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 100%;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+  }
+}
+.search-results li {
+  border-top: 1px solid #ddd;
+  padding: 0.25rem;
+}
+
+.search:focus + .search-results {
+  display: block;
+  background-color: White;
+}
+
+.map-container {
+  height: 80vh;
+  /* large screens*/
+}
+@media screen and (min-width: 64em) {
+  .map-container {
+    height: 100%;
+  }
+}
+
+iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.sidebar {
+  z-index: 2;
+  padding: 1rem;
+  background-color: WhiteSmoke;
+  /*   On medium screens, the sidebar is set to match the height of the map minus search.*/
+  /*  On large screens, the sidebar is full-height*/
+}
+@media print, screen and (min-width: 40em) {
+  .sidebar {
+    margin-top: 3.25rem;
+    height: calc(60vh - 3.25rem);
+    overflow-y: auto;
+    box-shadow: -4px 0 0 0 rgba(0, 0, 0, 0.1);
+  }
+}
+@media screen and (min-width: 64em) {
+  .sidebar {
+    height: calc(100% - 3.25rem);
+    box-shadow: 4px 0 0 0 rgba(0, 0, 0, 0.1);
+  }
+}
+
+.content-close-button-container {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  box-shadow: 0 -2px 0 rgba(0, 0, 0, 0.1);
+  background-color: White;
+  text-align: right;
+  padding: 1rem 1rem 0;
+  margin-bottom: -1rem;
+  /*  large screens*/
+}
+@media screen and (min-width: 64em) {
+  .content-close-button-container {
+    padding: 0;
+    margin-bottom: 0;
+  }
+}
+
+.content-close-button {
+  color: #6b717b;
+  font-size: 2rem;
+  line-height: 1;
+  position: relative;
+  margin: 0;
+  width: 1em;
+  /*   On large screens, the close button is positioned on the edge of the content area, overlapping the map.  */
+}
+@media screen and (min-width: 64em) {
+  .content-close-button {
+    display: block;
+    position: fixed;
+    z-index: 3;
+    top: 4.5rem;
+    right: 41.66667%;
+    background-color: White;
+    margin-right: -4px;
+    padding: 0 0.375rem 0.1875rem;
+    box-shadow: -4px 4px 0 rgba(0, 0, 0, 0.1);
+  }
+}
+
+.content {
+  padding: 1rem;
+  z-index: 3;
+  /*   On medium screens, the content area is set to match the height of the map*/
+}
+@media screen and (min-width: 64em) {
+  .content {
+    box-shadow: -4px 0 0 0 rgba(0, 0, 0, 0.1);
+    height: calc(100%);
+    overflow-y: auto;
+  }
+}
+
+/* On medium screens, if the content area is not open, make the map and sidebar full-height.*/
+@media print, screen and (min-width: 40em) {
+  .site-main:not(.has-content-open) .map-container,
+.site-main:not(.has-content-open) .sidebar {
+    height: calc(100vh - 4rem);
+  }
+}

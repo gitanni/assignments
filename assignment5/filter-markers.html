@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Filter symbols by toggling a list</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    </style>
+    </head>
+<body>
+<style>
+    .filter-group {
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        font-weight: 600;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1;
+        border-radius: 3px;
+        width: 120px;
+        color: #fff;
+    }
+
+    .filter-group input[type='checkbox']:first-child + label {
+        border-radius: 3px 3px 0 0;
+    }
+
+    .filter-group label:last-child {
+        border-radius: 0 0 3px 3px;
+        border: none;
+    }
+
+    .filter-group input[type='checkbox'] {
+        display: none;
+    }
+
+    .filter-group input[type='checkbox'] + label:hover,
+
+    
+    .filter-group input[type='checkbox'] + label {
+        background-color: #eabcee;
+        display: block;
+        cursor: pointer;
+        padding: 10px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+        text-transform: capitalize;
+        color: black;
+    }
+
+
+    .filter-group input[type='checkbox']:checked + label:before {
+        content: '✔';
+        margin-right: 5px;
+    }
+</style>
+<div id="map"></div>
+
+<!-- add filter group nav here  ( II.6) -->
+    <nav id="filter-group" class="filter-group"></nav>
+
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1Ijoiam9tZXJzb24iLCJhIjoiY2o1bXE2bHlyMnJhZDMzbnpyMnhlODdpcSJ9.QJMJ_cTFCY050aZfSn1umQ';
+    
+    // ADD THE DATA HERE (II.2)
+    // This GeoJSON contains features that include an "icon"
+    // property. The value of the "icon" property corresponds
+    // to an image in the Mapbox Light style's sprite. (Note:
+    // the name of images is the value of the "icon" property
+    // + "-15".)
+    var places = // put the JSON data here ;
+    {
+        "type": "FeatureCollection",
+        "features": [
+            {
+            "type": "Feature",
+            "properties": {
+                "icon": "theatre"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                -77.038659,
+                38.931567
+                ]
+            }
+            },
+            {
+            "type": "Feature",
+            "properties": {
+                "icon": "theatre"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                -77.003168,
+                38.894651
+                ]
+            }
+            },
+            {
+            "type": "Feature",
+            "properties": {
+                "icon": "bar"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                -77.090372,
+                38.881189
+                ]
+            }
+            },
+            {
+            "type": "Feature",
+            "properties": {
+                "icon": "bicycle"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                -77.052477,
+                38.943951
+                ]
+            }
+            },
+            {
+            "type": "Feature",
+            "properties": {
+                "icon": "music"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                -77.031706,
+                38.914581
+                ]
+            }
+            },
+            {
+            "type": "Feature",
+            "properties": {
+                "icon": "music"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                -77.020945,
+                38.878241
+                ]
+            }
+            },
+            {
+            "type": "Feature",
+            "properties": {
+                "icon": "music"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                -77.007481,
+                38.876516
+                ]
+            }
+            }
+        ]
+        }
+
+        var filterGroup = document.getElementById('filter-group');
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/light-v10',
+            center: [-77.04, 38.907],
+            zoom: 10,
+        });
+
+       	// Set bounds to Washington, DC
+		var bounds = [
+		    [-77.26383, 38.73854], // Southwest coordinates
+		    [-76.83569, 39.00114] // Northeast coordinates 
+		];
+
+		var map = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/mapbox/light-v10',
+			center: [-77.04, 38.907],
+			zoom: 11.15,
+			minZoom: 10, // pick your own
+			maxBounds: bounds // Sets bounds from variable above
+		});
+
+    // Map's On 'load' function.
+    map.on('load', function () {
+        // Add a GeoJSON source containing place coordinates and information.
+        map.addSource('places', {
+            'type': 'geojson',
+            'data': places
+        });
+
+         // add a new layer using the points
+            places.features.forEach(function (feature) {
+                var symbol = feature.properties['icon']; // get the value from the 'icon' field in the data
+                var layerID = 'poi-' + symbol;
+
+                // Add a layer for this symbol type if there is not a layer with this name already.
+                if (!map.getLayer(layerID)) {
+                map.addLayer({
+                    'id': layerID,
+                    'type': 'symbol',
+                    'source': 'places',
+                    'layout': {
+                    // These icons are a part of the Mapbox Light style.
+                    'icon-image': symbol + '-15',
+                    'icon-allow-overlap': true
+                    },
+                    // filter the dataset for all features that have the `icon` value that is the same and the current `symbol` value. 
+                    'filter': ['==', 'icon', symbol] 
+                });
+
+                            // Add checkbox and label elements for the layer.
+                            var input = document.createElement('input');
+                            input.type = 'checkbox';
+                            input.id = layerID;
+                           input.checked = true;
+                            filterGroup.appendChild(input);
+
+                            var label = document.createElement('label');
+                            label.setAttribute('for', layerID);
+                            label.textContent = symbol;
+                            filterGroup.appendChild(label);
+
+                            // When the checkbox changes, update the visibility of the layer.
+                            input.addEventListener('change', function (e) {
+                                map.setLayoutProperty(
+                                    layerID,
+                                   'visibility',
+                                    e.target.checked ? 'visible' : 'none'
+                            );
+                            });
+                    // Add popup code here (III.2)
+                        // When a click event occurs on a feature in the places layer, 
+                         // open a popup at the location of the feature, with description HTML from its properties.
+                         map.on('click', layerID, function (e) {
+                            var coordinates = e.features[0].geometry.coordinates.slice();
+                            var description = "This is a map point. <br> Type: " + e.features[0].properties.icon;
+
+                            new mapboxgl.Popup()
+                            .setLngLat(coordinates)
+                            .setHTML(description) // the string in the description var is added to the popup here
+                            .addTo(map);
+                              });
+                    // Add mouseover code here (V.1)
+                      // Change the cursor to a pointer when the mouse is over the places layer.
+                            map.on('mouseenter', layerID, function () {
+                                map.getCanvas().style.cursor = 'pointer';
+                            });
+
+                            // Change it back to a pointer when it leaves.
+                            map.on('mouseleave', layerID, function () {
+                                    map.getCanvas().style.cursor = '';
+                            });
+                }
+            });
+     
+        
+    });
+</script>
+
+</body>
+</html>
